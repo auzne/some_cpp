@@ -11,7 +11,7 @@
  *    O valor padrão pode atrapalhar em vez de ajudar
  */
 template <typename T, typename D = std::default_delete<T>>
-class clib_shared_ptr : std::shared_ptr<T> {
+class clib_shared_ptr : public std::shared_ptr<T> {
 public:
     clib_shared_ptr(T* ptr = nullptr)
         : std::shared_ptr<T>{ ptr, D{} }
@@ -21,5 +21,5 @@ public:
         std::shared_ptr<T>::reset(ptr, D{});
     }
 
-    operator T*() { return std::shared_ptr<T>::get(); }
+    operator T*() const noexcept { return std::shared_ptr<T>::get(); }
 };
